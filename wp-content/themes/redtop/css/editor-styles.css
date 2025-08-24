@@ -1,0 +1,283 @@
+/*ADMIN EDITOR*/
+@font-face {
+  font-family: "Cormorand";
+  font-weight:300;
+  src: local("Cormorand Garamond"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Light.ttf) format("truetype"),
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Light.woff) format("woff"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Light.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Cormorand";
+  font-weight:400;
+  src: local("Cormorand Garamond"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Regular.ttf) format("truetype"),
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Regular.woff) format("woff"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Regular.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Cormorand";
+  font-weight:500;
+  src: local("Cormorand Garamond"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Medium.ttf) format("truetype"),
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Medium.woff) format("woff"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Medium.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Cormorand";
+  font-weight:600;
+  src: local("Cormorand Garamond"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-SemiBold.ttf) format("truetype"),
+  url(fonts/Cormorant-Garamond/CormorantGaramond-SemiBold.woff) format("woff"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-SemiBold.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Cormorand";
+  font-weight:700;
+  font-style: italic;
+  src: local("Cormorand Garamond"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Bold.ttf) format("truetype"),
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Bold.woff) format("woff"), 
+  url(fonts/Cormorant-Garamond/CormorantGaramond-Bold.woff2) format("woff2");
+  font-display: swap;
+} 
+
+
+@font-face {
+  font-family: "Retni";
+  font-weight:300;
+  font-style: normal;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-Light.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-Light.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-Light.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight:300;
+  font-style: italic;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-LightItalic.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-LightItalic.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-LightItalic.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 400;
+  font-style: normal;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-Regular.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-Regular.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-Regular.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 400;
+  font-style: italic;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-Italic.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-Italic.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-Italic.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 500;
+  font-style: normal;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-Medium.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-Medium.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-Medium.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 500;
+  font-style: italic;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-MediumItalic.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-MediumItalic.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-MediumItalic.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 700;
+  font-style: normal;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-Bold.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-Bold.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-Bold.woff2) format("woff2");
+  font-display: swap;
+} 
+
+@font-face {
+  font-family: "Retni";
+  font-weight: 700;
+  font-style: normal;
+  src: local("Retni"), 
+  url(fonts/Retni/RetniSans-BoldItalic.ttf) format("truetype"),
+  url(fonts/Retni/RetniSans-BoldItalic.woff) format("woff"), 
+  url(fonts/Retni/RetniSans-BoldItalic.woff2) format("woff2");
+  font-display: swap;
+} 
+
+.block-editor-iframe__body {
+  position: relative;
+  background: var(--light-accent);
+}
+:root {
+    --black: #272727;
+    --accent: #B70000;
+    --accent-light: #e86c6c;
+    --light: #FCFBF5;
+    --grey: #A2A2A2;
+    --dark-grey: #3e3e3e;
+    --light-grey: #d6d6d6;
+}
+
+* {
+    font-family: 'Retni', sans-serif;
+    color: var(--black);
+}
+
+html :where(.wp-block) {
+    margin-bottom: 28px;
+    margin-top: 28px;
+    max-width: 90%;
+}
+
+.block-editor-iframe__body {
+  position: relative;
+  background: var(--light);
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 700;
+    font-family: 'Cormorand', serif;
+    margin: 0;
+}
+
+
+h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position:relative;
+    font-size: 42px;
+    font-family: 'Cormorand', serif;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h2:after{
+    content:'';
+    height:1px;
+    background: var(--light-grey);
+    display: block;
+}
+
+
+
+h3 {
+    font-size: 28px;
+    font-family: 'Cormorand', serif;
+    font-weight: 400;
+    text-transform: none;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 26px;
+    font-weight: 500;
+    text-transform: none;
+    margin-bottom: 15px;
+}
+
+.fixed-container {
+    width: 1400px;
+    margin: 0 auto !important;
+    padding: 0 20px;
+}
+
+.has-background.wp-block-separator {
+    width: 100px;
+    margin: 0;
+}
+
+.wp-block-columns .wp-block {
+    border: 1px dotted var(--black);
+}
+
+.wp-block-spacer {
+    position: relative;
+    background: #d7d7d7;
+    height:40px;
+}
+
+.wp-block-spacer:after {
+    content: 'spacer';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    font-size: 12px;
+    font-style: italic;
+}
+
+figure.wp-block-pullquote {
+    font-size: 16px;
+    margin: 30px 0;
+    background: var(--light-grey);
+    padding: 20px;
+    border-left: 3px solid var(--main);
+}
+
+.wp-block-cover__inner-container p.block-editor-rich-text__editable {
+  color: #fff;
+}
+
+.wp-block-cover .wp-block-cover__inner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.wp-block-pullquote blockquote p {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size:18px;
+  font-weight: 600;
+}
+
+.wp-block-pullquote blockquote cite {
+  font-size:16px;
+  font-weight: 600;
+  font-style:normal;
+}
+/* 
+.wp-block-spacer{
+    height:60px;
+    background:rgba(185, 235, 138, .3);
+} */
+

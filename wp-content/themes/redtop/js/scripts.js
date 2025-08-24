@@ -1,0 +1,191 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    let body = $('body');
+    let menu = $('.header-nav');
+    let burger = $('.menu-toggle');
+    //let textOther = 'Закрыть';
+
+    $(document).on('click', '.menu-toggle', function (e) {
+        e.stopPropagation(); // Остановить всплытие
+        $(this).toggleClass('open');
+        menu.toggleClass('open');
+        body.toggleClass('_fixed');
+    });
+
+    // Клик вне меню — закрыть его
+    $(document).on('click', function (e) {
+        if ($('.header-nav').hasClass('open')) {
+            if (!$(e.target).closest('.header-nav, .menu-toggle').length) {
+                $('.header-nav').removeClass('open');
+                $('.menu-toggle').removeClass('open');
+                body.removeClass('_fixed');
+            }
+        }
+    });
+
+
+    if (window.innerWidth > 1024) {
+        const parents = document.querySelectorAll('.menu-item-has-children');
+
+        parents.forEach(parent => {
+            const link = parent.querySelector('a');
+            const submenu = parent.querySelector('.dropdown-menu');
+
+            if (!link || !submenu) return;
+
+            // Показываем меню при наведении мыши
+            parent.addEventListener('mouseenter', () => {
+                submenu.style.display = 'grid';
+            });
+
+            parent.addEventListener('mouseleave', () => {
+                submenu.style.display = 'none';
+            });
+
+            // Переход по ссылке по клику
+            link.addEventListener('click', (e) => {
+                console.log(`переход по ссылке: ${link.textContent.trim()}`);
+                // переход по ссылке произойдёт по умолчанию
+            });
+        });
+    }
+
+    // Изменение хедера при скролле
+
+    //if (window.innerWidth < 1024) {
+    const headerFront = document.querySelector('.site-header');
+    const headerChange = () => {
+        const
+            mainBlock = document.querySelector('body');
+
+
+        window.addEventListener('scroll', () => {
+            if (-mainBlock.getBoundingClientRect().top > 500) {
+                headerFront.classList.add('header-scroll');
+
+            } else {
+                headerFront.classList.remove('header-scroll');
+            }
+        })
+
+    }
+    headerChange();
+    //}
+    //плавный скролл
+
+    function smoothScrollToElement(selector, duration = 700) {
+        const target = document.querySelector(selector);
+        if (!target) return;
+
+        // Отключаем встроенный smooth scroll на время анимации
+        document.documentElement.style.scrollBehavior = "auto";
+
+        const element = document.scrollingElement || document.documentElement;
+        const start = element.scrollTop;
+        const targetTop = target.getBoundingClientRect().top + start - 160;
+        const change = targetTop - start;
+        const startTime = performance.now();
+
+        function easeInOutQuad(t) {
+            return t < 0.5
+                ? 2 * t * t
+                : -1 + (4 - 2 * t) * t;
+        }
+
+        function animateScroll(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutQuad(progress);
+
+            element.scrollTop = start + change * easedProgress;
+
+            if (elapsed < duration) {
+                requestAnimationFrame(animateScroll);
+            } else {
+                // Возвращаем поведение браузера обратно
+                document.documentElement.style.scrollBehavior = "";
+            }
+        }
+
+        requestAnimationFrame(animateScroll);
+    }
+
+    //  плавный скролл по клику на ссылку
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault(); // убираем мгновенный прыжок
+            smoothScrollToElement(this.getAttribute("href"), 800);
+        });
+    });
+
+    // кнопка вверх
+    const upArrow = document.querySelector('.arrow-up');
+
+
+    function arrowUp() {
+
+        if (upArrow) {
+            upArrow.addEventListener('click', (e) => {
+                e.preventDefault();
+                smoothScrollToTop(800);
+            });
+        }
+
+        // const arrow = document.querySelector('.arrow-up');
+        if (!upArrow) return; // если кнопка не найдена — выходим
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                upArrow.classList.add('show');
+            } else {
+                upArrow.classList.remove('show');
+            }
+        });
+    }
+
+    arrowUp();
+
+    // Универсальный плавный скролл к верху
+    function smoothScrollToTop(duration = 700) {
+        const element = document.scrollingElement || document.documentElement;
+        const start = element.scrollTop;
+        const change = -start;
+        const startTime = performance.now();
+
+        function easeInOutQuad(t) {
+            return t < 0.5
+                ? 2 * t * t
+                : -1 + (4 - 2 * t) * t;
+        }
+
+        function animateScroll(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutQuad(progress);
+
+            element.scrollTop = start + change * easedProgress;
+
+            if (elapsed < duration) {
+                requestAnimationFrame(animateScroll);
+            }
+        }
+
+        requestAnimationFrame(animateScroll);
+    }
+    //анимация при скролле
+
+    function onEntry(entry) {
+        entry.forEach(change => {
+            if (change.isIntersecting) {
+                change.target.classList.add('animate');
+            }
+        });
+    }
+    let options = { threshold: [0.5] };
+    let observer = new IntersectionObserver(onEntry, options);
+    let elements = document.querySelectorAll('.fromTop, .toRight, .toLeft, .fromBottom, .fromOpacity');
+    for (let elm of elements) {
+        observer.observe(elm);
+    };
+
+});
