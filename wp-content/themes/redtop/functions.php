@@ -171,7 +171,7 @@ function redtop_widgets_init()
 		)
 	);
 
-	
+
 	register_sidebar(
 		array(
 			'name'          => esc_html__('Footer widget #3', 'redtop'),
@@ -225,6 +225,7 @@ function redtop_scripts()
 	wp_enqueue_script('redtop_slider_scripts', get_template_directory_uri() . '/js/slider-scripts.js', array(), _S_VERSION, true);
 	//wp_enqueue_script('redtop_masonry_scripts', 'https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js">', array(), _S_VERSION, true);
 	wp_enqueue_script('js-accordion', get_template_directory_uri() . '/js/accordion.js', array(), null, true);
+	wp_enqueue_script('js-woo', get_template_directory_uri() . '/js/woo.js', array(), null, true);
 	wp_enqueue_script('js-loadmore', get_template_directory_uri() . '/js/ajax.js', array(), null, true);
 	wp_localize_script('js-loadmore', 'ajaxData', [
 		'ajax_url' => admin_url('admin-ajax.php'),
@@ -250,6 +251,10 @@ function redtop_scripts()
 }
 add_action('wp_enqueue_scripts', 'redtop_scripts');
 
+
+
+
+
 add_action('after_setup_theme', 'gut_styles');
 
 function gut_styles()
@@ -257,6 +262,33 @@ function gut_styles()
 	add_theme_support('editor-styles');
 	add_editor_style('css/editor-styles.css');
 }
+
+
+add_action('wp_enqueue_scripts', function () {
+	// Проверяем, главная страница
+	if (is_front_page() || is_home()) {
+
+		// Если скрипт зарегистрирован WooCommerce, подключаем
+		if (wp_script_is('wc-add-to-cart', 'registered')) {
+			wp_enqueue_script('wc-add-to-cart');
+		}
+
+		if (wp_script_is('wc-cart-fragments', 'registered')) {
+			wp_enqueue_script('wc-cart-fragments');
+		}
+
+		// Иногда нужно подключить локализацию для ajax_add_to_cart
+		if (!wp_script_is('wc-add-to-cart', 'enqueued')) {
+			wp_localize_script('wc-add-to-cart', 'wc_add_to_cart_params', array(
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'wc_ajax_url' => WC_AJAX::get_endpoint("%%endpoint%%"),
+				'i18n_view_cart' => __('View cart', 'woocommerce'),
+			));
+		}
+	}
+}, 50); // Приоритет 50, чтобы WooCommerce успел зарегистрировать скрипты
+
+
 /**
  * Implement the Custom Header feature.
  */
@@ -386,4 +418,19 @@ function handle_filter_works_ajax()
 	}
 
 	wp_die(); // важно завершить ajax
+}
+
+add_action('wp_ajax_rt_remove_from_cart', 'rt_remove_from_cart');
+add_action('wp_ajax_nopriv_rt_remove_from_cart', 'rt_remove_from_cart');
+
+function rt_remove_from_cart()
+{
+    $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
+
+    if ($cart_item_key && WC()->cart->remove_cart_item($cart_item_key)) {
+        // обновляем фрагменты мини-корзины
+        WC_AJAX::get_refreshed_fragments();
+    } else {
+        wp_send_json_error();
+    }
 }

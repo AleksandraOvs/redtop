@@ -1,50 +1,58 @@
 <?php
-$products = wc_get_products(array(
-    'limit'   => 3,
-    'orderby' => 'date',
-    'order'   => 'DESC',
-    'category' => array('main'),
-));
+$products = wc_get_products([
+    'limit'    => 3,
+    'orderby'  => 'date',
+    'order'    => 'DESC',
+    'category' => ['main'],
+]);
 
-if ($products) {
-    echo '<section class="main-products">';
-    echo '<div class="fixed-container">';
-    echo '<ul class="main-products__list">';
-    foreach ($products as $product) {
-        $product_id = $product->get_id();
-        $gif_url    = carbon_get_post_meta($product_id, 'product_gif');
+if ($products) :
+?>
+    <section class="main-products">
+        <div class="fixed-container">
 
-        echo '<li class="product-item">';
+            <!-- Контейнер для уведомлений WooCommerce -->
+            <div class="woocommerce-notices-wrapper"></div>
 
-        // Ссылка на товар
-        echo '<a href="' . get_permalink($product_id) . '">';
+            <ul class="main-products__list">
+                <?php foreach ($products as $product) :
+                    $product_id = $product->get_id();
+                    $gif_url    = carbon_get_post_meta($product_id, 'product_gif');
+                ?>
+                    <li class="product-item">
+                        <a href="<?php echo get_permalink($product_id); ?>">
+                            <?php if ($gif_url) : ?>
+                                <img src="<?php echo esc_url($gif_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>" class="product-gif" />
+                            <?php else : ?>
+                                <?php echo $product->get_image(); ?>
+                            <?php endif; ?>
+                            <h3><?php echo $product->get_name(); ?></h3>
+                            <span class="price"><?php echo $product->get_price_html(); ?></span>
+                        </a>
 
-        if ($gif_url) {
-            echo '<img src="' . esc_url($gif_url) . '" alt="' . esc_attr($product->get_name()) . '" class="product-gif" />';
-        } else {
-            echo $product->get_image(); // fallback на обычное изображение
-        }
 
-        echo '<h3>' . $product->get_name() . '</h3>';
-        echo '<span class="price">' . $product->get_price_html() . '</span>';
-        echo '</a>';
+                        <?php
+                        $product_id = $product->get_id();
+                        $classes = 'button add_to_cart_button ajax_add_to_cart';
 
-        // Кнопка "В корзину"
-        echo apply_filters(
-            'woocommerce_loop_add_to_cart_link',
-            sprintf(
-                '<a href="%s" data-quantity="1" class="button add_to_cart_button ajax_add_to_cart" data-product_id="%s" aria-label="%s" rel="nofollow">%s</a>',
-                esc_url($product->add_to_cart_url()),
-                esc_attr($product_id),
-                esc_attr(sprintf(__('Добавить «%s» в корзину', 'woocommerce'), $product->get_name())),
-                esc_html($product->add_to_cart_text())
-            ),
-            $product
-        );
+                        // если товар уже в корзине → добавляем классы
+                        if (WC()->cart && rt_is_product_in_cart($product_id)) {
+                            $classes .= ' in-cart added';
+                        }
+                        ?>
 
-        echo '</li>';
-    }
-    echo '</ul>';
-    echo '</div>';
-    echo '</section>';
-}
+                        <a href="<?php echo esc_url($product->add_to_cart_url()); ?>"
+                            class="<?php echo esc_attr($classes); ?>"
+                            data-product_id="<?php echo esc_attr($product_id); ?>"
+                            data-quantity="1"
+                            rel="nofollow">
+                            <?php echo esc_html($product->add_to_cart_text()); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </section>
+<?php
+endif;
+?>

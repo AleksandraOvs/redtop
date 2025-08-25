@@ -672,7 +672,7 @@ h4 {
 
 .fixed-container,
 .page-content .wp-block-columns .wp-block-column.fixed-container {
-    width: 1400px;
+    width: 1200px;
     margin: 0 auto !important;
     /* padding: 0 30px; */
     flex-grow: unset;
@@ -1031,10 +1031,11 @@ ul.messengers-list {
 }
 
 .product-item {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /*BANNERS*/
@@ -2082,20 +2083,6 @@ blockquote.wp-block-quote {
 }
 
 
-@media (max-width: 1600px) {
-    .fixed-container {
-        width: 1400px;
-        padding: 0 30px;
-    }
-}
-
-@media (max-width: 1400px) {
-    .fixed-container {
-        width: 100%;
-        padding: 0 10%;
-    }
-}
-
 @media (max-width: 1201px) {
     .fixed-container {
         width: 100%;
@@ -2218,11 +2205,6 @@ blockquote.wp-block-quote {
         font-size: 1.4em;
         text-align: center;
         font-weight: 400;
-    }
-
-    h2 {
-        font-size: 24px;
-        font-weight: 600;
     }
 
     h4 {

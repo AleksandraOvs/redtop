@@ -1,5 +1,12 @@
 <?php get_header() ?>
 <main>
+    <?php
+    if (function_exists('wc_print_notices')) {
+        echo '<div class="woocommerce-notices-wrapper">';
+        wc_print_notices();
+        echo '</div>';
+    }
+    ?>
     <?php get_template_part('template-parts/hero'); ?>
     <?php get_template_part('template-parts/main-products'); ?>
     <?php get_template_part('template-parts/banners'); ?>

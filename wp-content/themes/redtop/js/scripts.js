@@ -73,9 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
     //}
     //плавный скролл
 
-    function smoothScrollToElement(selector, duration = 700) {
-        const target = document.querySelector(selector);
-        if (!target) return;
+    function smoothScrollToElement(selector) {
+        if (!selector || selector === '#') return; // защита от пустого селектора
+        const el = document.querySelector(selector);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+
 
         // Отключаем встроенный smooth scroll на время анимации
         document.documentElement.style.scrollBehavior = "auto";
@@ -187,5 +189,28 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let elm of elements) {
         observer.observe(elm);
     };
+
+    // Перехватываем событие добавления в корзину
+    document.body.addEventListener('added_to_cart', function (event) {
+        // Запоминаем текущую позицию скролла
+        var scrollPos = window.scrollY || window.pageYOffset;
+
+        // Обновляем контейнер уведомлений, если WooCommerce вернул фрагменты
+        var fragments = event.detail ? event.detail.fragments : null;
+        if (fragments && fragments['div.woocommerce-notices-wrapper']) {
+            var wrapper = document.querySelector('div.woocommerce-notices-wrapper');
+            if (wrapper) {
+                wrapper.outerHTML = fragments['div.woocommerce-notices-wrapper'];
+            }
+        }
+
+        // Восстанавливаем позицию страницы
+        window.scrollTo(0, scrollPos);
+    });
+
+    // Отключаем встроенную функцию скролла WooCommerce
+    if (typeof window.scroll_to_notices === 'function') {
+        window.scroll_to_notices = function () { return false; };
+    }
 
 });
