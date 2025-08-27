@@ -1031,11 +1031,11 @@ ul.messengers-list {
 }
 
 .product-item {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /*BANNERS*/
@@ -1303,8 +1303,8 @@ footer.site-footer .fixed-container {
 }
 
 footer.site-footer .footer-bottom .fixed-container {
-  padding-top: 0;
-  border: none;
+    padding-top: 0;
+    border: none;
 }
 
 .footer-bottom .fixed-container a {
@@ -1408,10 +1408,10 @@ ul#footer-menu li a:hover {
 }
 
 img.footer-logo-img {
-  width: 250px;
-  height: 40px;
-  object-fit: contain;
-  object-position: left;
+    width: 250px;
+    height: 40px;
+    object-fit: contain;
+    object-position: left;
 }
 
 .site-info {
@@ -1559,6 +1559,10 @@ h1.page-title {
 
 .page-section__content {
     padding: 40px 0;
+}
+
+.page-section._about-us .page-section__content {
+    padding-top: 0;
 }
 
 h3.archive-description {
@@ -1942,6 +1946,10 @@ a.wp-block-latest-posts__read-more:hover {
 }
 
 /*GUT*/
+.vh90 {
+    height: 90vh;
+    min-height: 90vh !important;
+}
 
 blockquote.wp-block-quote {
     margin: 0;
