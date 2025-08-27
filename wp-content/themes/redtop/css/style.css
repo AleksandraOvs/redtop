@@ -1558,7 +1558,7 @@ h1.page-title {
 }
 
 .page-section__content {
-    padding: 40px 0;
+    padding: 100px 0;
 }
 
 .page-section._about-us .page-section__content {
@@ -1949,6 +1949,11 @@ a.wp-block-latest-posts__read-more:hover {
 .vh90 {
     height: 90vh;
     min-height: 90vh !important;
+}
+
+.block {
+    padding: 40px;
+    border-radius: 30px;
 }
 
 blockquote.wp-block-quote {
