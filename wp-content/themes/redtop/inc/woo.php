@@ -154,3 +154,58 @@ function remove_product_description_editor()
 {
     remove_post_type_support('product', 'editor'); // full description
 }
+
+// --- 1. Убираем /product/ из ссылок ---
+function custom_remove_product_slug($post_link, $post)
+{
+    if ('product' === $post->post_type && 'publish' === $post->post_status) {
+        return home_url('/' . $post->post_name . '/');
+    }
+    return $post_link;
+}
+add_filter('post_type_link', 'custom_remove_product_slug', 10, 2);
+
+// --- 2. Добавляем правила для обработки ссылок без /product/ ---
+function custom_product_rewrite_rules()
+{
+    add_rewrite_rule(
+        '^([^/]+)/?$',
+        'index.php?product=$matches[1]',
+        'top'
+    );
+}
+add_action('init', 'custom_product_rewrite_rules');
+
+// --- 3. Редирект со старых ссылок на новые ---
+function custom_product_redirect()
+{
+    if (is_singular('product') && strpos($_SERVER['REQUEST_URI'], '/product/') !== false) {
+        $new_url = home_url('/' . basename(get_permalink()) . '/');
+        wp_redirect($new_url, 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'custom_product_redirect');
+
+// --- 4. Проверка на конфликты slug'ов ---
+function check_product_slug_conflicts($post_id, $post, $update)
+{
+    if ($post->post_type !== 'product') {
+        return;
+    }
+
+    $slug = $post->post_name;
+
+    // Проверяем конфликт со страницами
+    $page = get_page_by_path($slug, OBJECT, 'page');
+    if ($page && $page->ID != $post_id) {
+        error_log("⚠️ Конфликт slug: у товара и страницы одинаковый slug '$slug'");
+    }
+
+    // Проверяем конфликт с записями
+    $post_check = get_page_by_path($slug, OBJECT, 'post');
+    if ($post_check && $post_check->ID != $post_id) {
+        error_log("⚠️ Конфликт slug: у товара и поста одинаковый slug '$slug'");
+    }
+}
+add_action('save_post', 'check_product_slug_conflicts', 10, 3);
