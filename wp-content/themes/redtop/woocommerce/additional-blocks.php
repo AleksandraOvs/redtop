@@ -82,7 +82,7 @@ if (! empty($banners)) {
         $desktop_img = !empty($banner['banner_desktop']) ? wp_get_attachment_url($banner['banner_desktop']) : '';
         $mobile_img  = !empty($banner['banner_mobile']) ? wp_get_attachment_url($banner['banner_mobile']) : '';
 
-        echo '<div class="banners-list__list">';
+        echo '<div class="banners-list__item">';
 
         if ($desktop_img || $mobile_img) {
             echo '<picture>';
