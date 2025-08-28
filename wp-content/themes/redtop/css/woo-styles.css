@@ -15,7 +15,8 @@
 .button.add_to_cart_button,
 a.button,
 .single_add_to_cart_button.button,
-.products .product button.product_type_simple.add_to_cart_button.ajax_add_to_cart {
+.products .product button.product_type_simple.add_to_cart_button.ajax_add_to_cart,
+a.button.add_to_cart_button {
   display: block;
   font-weight: 300;
   background: var(--accent);
