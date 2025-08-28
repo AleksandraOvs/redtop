@@ -1122,6 +1122,10 @@ ul.messengers-list {
     font-size: 20px;
 }
 
+.testimonials-section {
+    overflow-x: hidden;
+}
+
 .testimonial-card {
     background: #EBEBEB;
     border-radius: 30px;
@@ -1224,6 +1228,7 @@ ul.messengers-list {
 .section-accessories {
     padding-top: 0;
     padding-bottom: 0;
+    overflow-x: hidden;
 }
 
 .accessories-text .fixed-container {
