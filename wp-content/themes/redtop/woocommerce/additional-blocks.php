@@ -76,13 +76,13 @@ echo '</div>'; // end product-add__links
 $banners = carbon_get_post_meta(get_the_ID(), 'product_banners');
 
 if (! empty($banners)) {
-    echo '<div class="product-banners">';
+    echo '<div class="banners-list">';
     foreach ($banners as $banner) {
 
         $desktop_img = !empty($banner['banner_desktop']) ? wp_get_attachment_url($banner['banner_desktop']) : '';
         $mobile_img  = !empty($banner['banner_mobile']) ? wp_get_attachment_url($banner['banner_mobile']) : '';
 
-        echo '<div class="product-banner">';
+        echo '<div class="banners-list__list">';
 
         if ($desktop_img || $mobile_img) {
             echo '<picture>';
