@@ -20,7 +20,7 @@ get_header();
 
 	<section class="page-section">
 
-		<div class="page-content">
+		<div class="page-section__content">
 
 			<div class="fixed-container">
 				<?php the_content(); ?>
