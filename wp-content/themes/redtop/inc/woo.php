@@ -108,3 +108,49 @@ function rt_is_product_in_cart($product_id)
     return false;
 }
 
+// Оборачиваем quantity в div с кнопками
+add_action('woocommerce_after_quantity_input_field', 'custom_quantity_plus_button');
+function custom_quantity_plus_button()
+{
+    echo '<button type="button" class="plus"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 7.3359H7.26027V0H8.99971V7.3359H16.26V8.92408H8.99971V16.26H7.26027V8.92408H0V7.3359Z" fill="black"/>
+</svg>
+
+</button>';
+}
+
+add_action('woocommerce_before_quantity_input_field', 'custom_quantity_minus_button');
+function custom_quantity_minus_button()
+{
+    echo '<button type="button" class="minus"><svg width="17" height="2" viewBox="0 0 17 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 0.335938H7.26027H8.99971H16.26V1.92412H8.99971H7.26027H0V0.335938Z" fill="black"/>
+</svg>
+
+</button>';
+}
+
+//распродажа / акция
+
+add_filter('woocommerce_sale_flash', 'custom_sale_flash', 10, 3);
+function custom_sale_flash($html, $post, $product)
+{
+    return '<span class="onsale">' . __('Акция', 'woocommerce') . '</span>';
+}
+
+
+
+// Убираем блок "Похожие товары"
+remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+// Убираем все табы
+add_filter('woocommerce_product_tabs', 'remove_all_product_tabs', 98);
+function remove_all_product_tabs($tabs)
+{
+    return array(); // возвращаем пустой массив — табов не будет
+}
+
+// Убираем стандартный редактор полного описания у товаров
+add_action('init', 'remove_product_description_editor', 100);
+function remove_product_description_editor()
+{
+    remove_post_type_support('product', 'editor'); // full description
+}

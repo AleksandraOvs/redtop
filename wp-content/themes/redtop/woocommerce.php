@@ -18,6 +18,14 @@ get_header(); ?>
         </div>
     </section>
 
+    <?php
+    if (function_exists('is_product') && is_product()) {
+        echo '<div class="product-add">';
+        get_template_part('woocommerce/additional-blocks');
+        echo '</div>';
+    }
+    ?>
+
 </main><!-- #primary -->
 
 <?php

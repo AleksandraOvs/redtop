@@ -18,7 +18,7 @@ body {
     font-family: 'Retni', sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 120%;
     background: #fff;
     color: var(--black);
@@ -322,7 +322,7 @@ select,
 optgroup,
 textarea {
     color: var(--dark);
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.2;
 }
 
@@ -637,7 +637,7 @@ hr {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 700;
     font-family: 'Retni', serif;
     margin: 0;
@@ -647,7 +647,7 @@ h1 {
 
 h2 {
     position: relative;
-    font-size: 38px;
+    font-size: 28px;
     font-family: 'Retni', serif;
     font-weight: 600;
     margin-bottom: 30px;
@@ -656,7 +656,7 @@ h2 {
 }
 
 h3 {
-    font-size: 28px;
+    font-size: 24px;
     text-transform: none;
     font-weight: 600;
     font-family: 'Retni';
@@ -664,7 +664,7 @@ h3 {
 }
 
 h4 {
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 500;
     text-transform: none;
     margin-bottom: 15px;
