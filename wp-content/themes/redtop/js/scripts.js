@@ -213,4 +213,32 @@ document.addEventListener("DOMContentLoaded", () => {
         window.scroll_to_notices = function () { return false; };
     }
 
+    jQuery(function($){
+        $('form.cart, .woocommerce-cart-form').on('click', 'button.plus, button.minus', function() {
+            var qty = $(this).closest('.quantity').find('.qty');
+            var val = parseFloat(qty.val());
+            var max = parseFloat(qty.attr('max'));
+            var min = parseFloat(qty.attr('min'));
+            var step = parseFloat(qty.attr('step'));
+
+            if (isNaN(val)) val = 0;
+            if (isNaN(step) || step == 0) step = 1;
+
+            if ($(this).is('.plus')) {
+                if (max && (val >= max)) {
+                    qty.val(max);
+                } else {
+                    qty.val(val + step);
+                }
+            } else {
+                if (min && (val <= min)) {
+                    qty.val(min);
+                } else if (val > 0) {
+                    qty.val(val - step);
+                }
+            }
+            qty.trigger('change');
+        });
+    });
+
 });

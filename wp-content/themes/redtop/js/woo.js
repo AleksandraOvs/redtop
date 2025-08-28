@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     function showNotice(message) {
         const notice = document.createElement('div');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.querySelectorAll('.custom-add-to-cart-button').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
 
             const productId = parseInt(this.dataset.productId);
@@ -51,28 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 credentials: 'same-origin',
                 body: JSON.stringify({ id: productId, quantity: quantity })
             })
-            .then(response => response.json().then(data => {
-                if (!response.ok) {
-                    console.error('Ответ сервера:', data);
-                    throw new Error('Ошибка при добавлении товара');
-                }
-                return data;
-            }))
-            .then(data => {
-                showNotice(`Товар "${data.name}" добавлен в корзину!`);
-                const event = new Event('wc-cart-update', { bubbles: true });
-                document.body.dispatchEvent(event);
-            })
-            .catch(error => {
-                console.error(error);
-                showNotice('Ошибка при добавлении товара в корзину');
-            });
+                .then(response => response.json().then(data => {
+                    if (!response.ok) {
+                        console.error('Ответ сервера:', data);
+                        throw new Error('Ошибка при добавлении товара');
+                    }
+                    return data;
+                }))
+                .then(data => {
+                    showNotice(`Товар "${data.name}" добавлен в корзину!`);
+                    const event = new Event('wc-cart-update', { bubbles: true });
+                    document.body.dispatchEvent(event);
+                })
+                .catch(error => {
+                    console.error(error);
+                    showNotice('Ошибка при добавлении товара в корзину');
+                });
         });
     });
 
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const noticesWrapper = document.querySelector('.woocommerce-notices-wrapper');
     if (!noticesWrapper) return;
 
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 15000);
 
     // Скрытие при клике вне блока уведомлений
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!noticesWrapper.contains(e.target)) {
             noticesWrapper.querySelectorAll('.woocommerce-message').forEach(notice => {
                 removeNotice(notice);
@@ -101,13 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //появление списка добавленных товаров при клике на mini-cart
-   const toggleBtn = document.querySelector('.mini-cart-toggle');
-    const dropdown  = document.querySelector('.mini-cart-dropdown');
-    const body      = document.body;
+    const toggleBtn = document.querySelector('.mini-cart-toggle');
+    const dropdown = document.querySelector('.mini-cart-dropdown');
+    const body = document.body;
 
     if (!toggleBtn || !dropdown) return;
 
-    toggleBtn.addEventListener('click', function(e) {
+    toggleBtn.addEventListener('click', function (e) {
         e.preventDefault();
         const isOpen = dropdown.classList.toggle('show');
 
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Закрытие при клике вне дропдауна
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
             if (dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
@@ -162,16 +162,16 @@ document.addEventListener('DOMContentLoaded', function() {
 //   });
 // });
 
-document.addEventListener('click', function(e){
+document.addEventListener('click', function (e) {
     const removeBtn = e.target.closest('.mini_cart_item .remove');
-    if(!removeBtn) return;
+    if (!removeBtn) return;
 
     e.preventDefault();
     const key = removeBtn.dataset.cart_item_key;
-    if(!key) return;
+    if (!key) return;
 
     // проверка переменной
-    if(typeof wc_add_to_cart_params === 'undefined') {
+    if (typeof wc_add_to_cart_params === 'undefined') {
         console.error('wc_add_to_cart_params не определена!');
         return;
     }
@@ -184,14 +184,23 @@ document.addEventListener('click', function(e){
             cart_item_key: key
         })
     })
-    .then(res => res.json())
-    .then(data => {
-        if(data.fragments){
-            Object.entries(data.fragments).forEach(([selector, html]) => {
-                const el = document.querySelector(selector);
-                if(el) el.outerHTML = html;
-            });
-        }
-    })
-    .catch(err => console.error('Ошибка удаления из корзины:', err));
+        .then(res => res.json())
+        .then(data => {
+            if (data.fragments) {
+                Object.entries(data.fragments).forEach(([selector, html]) => {
+                    const el = document.querySelector(selector);
+                    if (el) el.outerHTML = html;
+                });
+            }
+        })
+        .catch(err => console.error('Ошибка удаления из корзины:', err));
 });
+
+// jQuery(function ($) {
+//     $('.woocommerce-product-gallery__wrapper')
+//         .addClass('swiper-wrapper')
+//         .children()
+//         .addClass('swiper-slide')
+//         .wrapAll('<div class="swiper product-gallery-slider"><div class="swiper-wrapper"></div></div>');
+//     $('.swiper').append('<div class="swiper-pagination"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div>');
+// });
