@@ -215,6 +215,7 @@ header.site-header {
 	margin: 0 auto;
 	position: relative;
 }
+
 /* 
 .site-header.header-scroll .fixed-container .site-branding a.custom-logo-link {
 	height: 40px;
@@ -863,9 +864,14 @@ a.custom-logo-link img {
 	}
 
 	.header-nav ul {
+		display: block;
 		gap: 10px;
 		justify-content: center;
 		flex-wrap: wrap;
+	}
+
+	#menu-main-menu li:not(:last-child) {
+		margin-bottom: 12px;
 	}
 
 	.slide-desc p {
