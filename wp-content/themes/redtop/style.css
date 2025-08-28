@@ -427,15 +427,13 @@ nav#site-navigation div {
 }
 
 .header-nav {
-	position: absolute;
-	height: max-content;
+	position: fixed;
 	background: rgba(0, 0, 0, .2);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
 	-o-backdrop-filter: blur(20px);
 	-moz-backdrop-filter: blur(20px);
 	margin-top: 20px;
-	height: max-content;
 	border-radius: 8px;
 	z-index: 1;
 	width: 100%;
@@ -871,9 +869,6 @@ a.custom-logo-link img {
 
 	.header-nav ul {
 		display: block;
-		gap: 10px;
-		justify-content: center;
-		flex-wrap: wrap;
 	}
 
 	#menu-main-menu li:not(:last-child) {
