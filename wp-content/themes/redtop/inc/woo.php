@@ -166,10 +166,30 @@ function custom_remove_product_slug($post_link, $post)
 add_filter('post_type_link', 'custom_remove_product_slug', 10, 2);
 
 // --- 2. Добавляем правила для обработки ссылок без /product/ ---
+// Добавляем правила для обработки ссылок без /product/
 function custom_product_rewrite_rules()
 {
+    // Получаем служебные страницы WooCommerce
+    $woocommerce_pages = array(
+        get_option('woocommerce_cart_page_id'),
+        get_option('woocommerce_checkout_page_id'),
+        get_option('woocommerce_myaccount_page_id'),
+        get_option('woocommerce_shop_page_id'),
+    );
+
+    $slugs_to_exclude = array();
+    foreach ($woocommerce_pages as $page_id) {
+        if ($page_id) {
+            $slugs_to_exclude[] = get_post_field('post_name', $page_id);
+        }
+    }
+
+    // Собираем исключения
+    $exclude = implode('|', $slugs_to_exclude);
+
+    // Добавляем правило: только если URL не совпадает с исключёнными
     add_rewrite_rule(
-        '^([^/]+)/?$',
+        '^((?!' . $exclude . ')[^/]+)/?$',
         'index.php?product=$matches[1]',
         'top'
     );
