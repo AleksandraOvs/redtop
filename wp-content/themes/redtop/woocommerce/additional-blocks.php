@@ -90,7 +90,7 @@ if (! empty($banners)) {
                 echo '<source media="(max-width: 768px)" srcset="' . esc_url($mobile_img) . '">';
             }
             if ($desktop_img) {
-                echo '<img src="' . esc_url($desktop_img) . '" alt="">';
+                echo '<img class="banners-list__item__pic" src="' . esc_url($desktop_img) . '" alt="">';
             }
             echo '</picture>';
         }
