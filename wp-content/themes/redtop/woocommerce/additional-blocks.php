@@ -85,12 +85,12 @@ if (! empty($banners)) {
         echo '<div class="banners-list__item">';
 
         if ($desktop_img || $mobile_img) {
-            echo '<picture>';
+            echo '<picture class="banners-list__item__pic">';
             if ($mobile_img) {
                 echo '<source media="(max-width: 768px)" srcset="' . esc_url($mobile_img) . '">';
             }
             if ($desktop_img) {
-                echo '<img class="banners-list__item__pic" src="' . esc_url($desktop_img) . '" alt="">';
+                echo '<img src="' . esc_url($desktop_img) . '" alt="">';
             }
             echo '</picture>';
         }
