@@ -687,9 +687,19 @@ input[type=number] {
 
   .product-links {
     flex-direction: column;
+    gap: 20px;
   }
 
   .product-links>li {
     width: 100%;
   }
+
+  .where-buy-links {
+    justify-content: center;
+  }
+
+  .where-buy-link h4 {
+    text-align: center;
+  }
+
 }
