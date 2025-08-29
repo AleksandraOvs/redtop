@@ -696,10 +696,12 @@ input[type=number] {
 
   .where-buy-links {
     justify-content: center;
+    gap: 10px;
   }
 
   .where-buy-link h4 {
     text-align: center;
+    width: 100%;
   }
 
 }
