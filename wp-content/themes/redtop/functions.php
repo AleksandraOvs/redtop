@@ -233,7 +233,7 @@ function redtop_scripts()
 
 	// Подключаем скрипт
 	wp_enqueue_script(
-		'filter-posts', // ← ID скрипта
+		'filter-recipes', // ← ID скрипта
 		get_template_directory_uri() . '/js/posts-script.js',
 		array(),
 		null,
@@ -241,7 +241,7 @@ function redtop_scripts()
 	);
 
 	// Передаём ajaxurlObj в скрипт
-	wp_localize_script('filter-posts', 'ajaxurlObj', array(
+	wp_localize_script('filter-recipes', 'ajaxurlObj', array(
 		'ajaxurl' => admin_url('admin-ajax.php')
 	));
 
@@ -311,6 +311,8 @@ require 'inc/walker.php';
 require 'inc/load-more.php';
 
 require 'inc/woo.php';
+
+require 'inc/post-types.php';
 
 /**
  * Initialization Post Types
@@ -384,24 +386,25 @@ add_filter('upload_mimes', 'allow_svg_upload_for_admins');
 
 
 //обработка ajax-запроса
-add_action('wp_ajax_filter_works_by_category', 'handle_filter_works_ajax');
-add_action('wp_ajax_nopriv_filter_works_by_category', 'handle_filter_works_ajax');
+// Обработка ajax-запроса
+add_action('wp_ajax_filter_recipes', 'handle_filter_recipes_ajax');
+add_action('wp_ajax_nopriv_filter_recipes', 'handle_filter_recipes_ajax');
 
-function handle_filter_works_ajax()
+function handle_filter_recipes_ajax()
 {
-	$term_id = isset($_POST['term_id']) ? intval($_POST['term_id']) : 0;
+	$term_id = isset($_POST['term_id']) ? $_POST['term_id'] : 0;
 
 	$args = array(
-		'post_type' => 'portfolio',
+		'post_type'      => 'recipes',
 		'posts_per_page' => -1,
 	);
 
 	if ($term_id && $term_id !== 'all') {
 		$args['tax_query'] = array(
 			array(
-				'taxonomy' => 'projects_category',
+				'taxonomy' => 'recipes_category',
 				'field'    => 'term_id',
-				'terms'    => $term_id,
+				'terms'    => intval($term_id),
 			),
 		);
 	}
@@ -411,26 +414,11 @@ function handle_filter_works_ajax()
 	if ($query->have_posts()) {
 		while ($query->have_posts()) {
 			$query->the_post();
-			get_template_part('template-parts/project-item');
+			get_template_part('template-parts/content-recipe');
 		}
 	} else {
 		echo '<p>Посты не найдены.</p>';
 	}
 
-	wp_die(); // важно завершить ajax
-}
-
-add_action('wp_ajax_rt_remove_from_cart', 'rt_remove_from_cart');
-add_action('wp_ajax_nopriv_rt_remove_from_cart', 'rt_remove_from_cart');
-
-function rt_remove_from_cart()
-{
-    $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
-
-    if ($cart_item_key && WC()->cart->remove_cart_item($cart_item_key)) {
-        // обновляем фрагменты мини-корзины
-        WC_AJAX::get_refreshed_fragments();
-    } else {
-        wp_send_json_error();
-    }
+	wp_die(); // завершает ajax-запрос
 }

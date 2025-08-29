@@ -4,21 +4,26 @@ jQuery(document).ready(function ($) {
 
 	$('#category-filter a').on('click', function (e) {
 		e.preventDefault();
-		
-		let termId = $(this).data('term');
+
+		let $this = $(this);
+		let termId = $this.data('term');
+
+		// Устанавливаем класс active на кликнутую ссылку
+		$('#category-filter a').removeClass('active');
+		$this.addClass('active');
 
 		$.ajax({
 			url: ajaxurlObj.ajaxurl,
 			type: 'POST',
 			data: {
-				action: 'filter_works_by_category',
+				action: 'filter_recipes',
 				term_id: termId
 			},
 			beforeSend: function () {
-				$('#works-list').html('<div class="loader"></div>');
+				$('#recipes-list').html('<div class="loader"></div>');
 			},
 			success: function (response) {
-				$('#works-list').html(response);
+				$('#recipes-list').html(response);
 			}
 		});
 	});
