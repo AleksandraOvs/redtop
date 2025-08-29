@@ -1283,6 +1283,10 @@ section {
     padding: 10vh 0;
 }
 
+h2.title {
+    text-align: center;
+}
+
 footer.site-footer {
     position: relative;
     background: var(--light);
