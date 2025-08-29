@@ -610,6 +610,7 @@ input[type=number] {
 .product-links li.sublinks a:hover {
   background: transparent;
   transform: scale(1.02);
+  color: var(--accent);
 }
 
 .product-links li.sublinks a {
