@@ -1551,8 +1551,11 @@ ul#footer-menu li a {
     display: block;
 }
 
-.page-section {
+/* .page-section {
     padding: 0;
+} */
+section.page-section {
+    padding-top: 120px;
 }
 
 .page-header h2 {
