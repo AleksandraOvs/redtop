@@ -1567,9 +1567,10 @@ h1.page-title {
     text-align: center;
 }
 
+/* 
 .page-section__content {
     padding: 100px 0 20px;
-}
+} */
 
 .page-section._about-us .page-section__content {
     padding-top: 0;
