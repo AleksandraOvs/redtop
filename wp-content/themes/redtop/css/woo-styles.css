@@ -662,6 +662,10 @@ input[type=number] {
     flex-direction: column;
   }
 
+  .product-add__links>ul {
+    width: 100%;
+  }
+
   .product-add__links .product-video {
     width: 100%;
     height: 450px;
