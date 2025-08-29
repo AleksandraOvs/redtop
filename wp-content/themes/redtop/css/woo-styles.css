@@ -674,6 +674,7 @@ input[type=number] {
   .product-add__links .product-video iframe {
     height: 100%;
   }
+
 }
 
 @media(max-width: 576px) {
@@ -682,5 +683,13 @@ input[type=number] {
     display: flex;
     gap: 20px;
     flex-direction: column;
+  }
+
+  .product-links {
+    flex-direction: column;
+  }
+
+  .product-links>li {
+    width: 100%;
   }
 }
