@@ -2576,6 +2576,13 @@ blockquote.wp-block-quote {
 
 }
 
+@media (max-width:375px) {
+    .hero-section {
+        padding: 0;
+        height: 75vh;
+    }
+}
+
 @media (max-width: 992px) {
     .width70 {
         width: 100%;
