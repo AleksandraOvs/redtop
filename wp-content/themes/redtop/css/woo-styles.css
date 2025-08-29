@@ -545,13 +545,6 @@ input[type=number] {
   background: transparent;
 }
 
-.product-links li.sublinks {
-  background: transparent;
-  padding: 20px;
-  padding: 0;
-  justify-content: flex-start;
-}
-
 .where-buy-link h4 {
   margin: 0;
   font-size: 16px;
@@ -598,6 +591,16 @@ input[type=number] {
   color: var(--dark-grey);
   text-align: center;
   font-size: 16px;
+}
+
+.product-links li.sublinks {
+  background: transparent;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.product-links li.sublinks a {
+  height: max-content;
 }
 
 .product-links {
