@@ -84,9 +84,11 @@ function site_carbon()
                     // Field::make("checkbox", "crb_darker_pic", "Включить затемнение слайда")
                     //     ->set_option_value('yes'),
                     Field::make('image', 'crb_hero_img', 'Hero Picture')
-                        ->set_width(50),
+                        ->set_width(33),
+                    Field::make('image', 'crb_hero_img_tablet', 'Hero Picture (tablet)')
+                        ->set_width(33),
                     Field::make('image', 'crb_hero_img_mob', 'Hero Picture (mobile)')
-                        ->set_width(50),
+                        ->set_width(33),
                     Field::make('text', 'crb_hero_content_link', 'Ссылка слайда')
                         ->set_width(50),
                 )),
