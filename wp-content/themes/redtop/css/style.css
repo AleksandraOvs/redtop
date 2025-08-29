@@ -2243,7 +2243,7 @@ blockquote.wp-block-quote {
 
     .hero-section {
         padding: 0;
-        height: 80vh;
+        height: 50vh;
     }
 
     .hero-slide-content__left {
@@ -2477,6 +2477,11 @@ blockquote.wp-block-quote {
     h3 {
         font-size: 20px;
         font-weight: 600;
+    }
+
+    .hero-section {
+        padding: 0;
+        height: 80vh;
     }
 
     .swiper-slide.hero-slider__slide picture img {

@@ -18,7 +18,7 @@
 
                         <picture>
                             <?php if (!empty($slide['crb_hero_img_mob'])) : ?>
-                                <source media="(max-width: 575px)" srcset="<?= wp_get_attachment_image_url($slide['crb_hero_img_mob'], 'full'); ?>">
+                                <source media="(max-width: 480px)" srcset="<?= wp_get_attachment_image_url($slide['crb_hero_img_mob'], 'full'); ?>">
                             <?php endif; ?>
                             <?php if (!empty($slide['crb_hero_img'])) : ?>
                                 <img src="<?= wp_get_attachment_image_url($slide['crb_hero_img'], 'full'); ?>" alt="">
