@@ -62,9 +62,9 @@
 					<?php
 					$button_link = carbon_get_theme_option('crb_header_button_text_link');
 
-					if (!empty($button_link_text)) {
+					if (!empty($button_link)) {
 						echo '<div class="header-right">
-						<a href="' . $button_link_text . '" class="btn">Заказать</a>
+						<a href="' . $button_link . '" class="btn">Заказать</a>
 					</div>';
 					}
 					?>
