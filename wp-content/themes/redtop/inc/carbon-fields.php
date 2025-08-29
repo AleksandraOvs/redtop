@@ -26,6 +26,9 @@ function site_carbon()
             //             ->set_width(33),
             //     )),
 
+            Field::make('text', 'crb_header_button_text_link', 'Ссылка кнопки')
+                ->set_width(50),
+
             Field::make('complex', 'crb_socials', 'Соцсети')
 
                 ->add_fields(array(
