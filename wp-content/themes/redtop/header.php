@@ -59,9 +59,15 @@
 						<div class="bar"></div>
 					</a>
 
-					<div class="header-right">
-						<a href="/" class="btn">Заказать</a>
-					</div>
+					<?php
+					$button_link = carbon_get_theme_option('crb_header_button_text_link');
+
+					if (!empty($button_link_text)) {
+						echo '<div class="header-right">
+						<a href="' . $button_link_text . '" class="btn">Заказать</a>
+					</div>';
+					}
+					?>
 				</div>
 
 				<nav class="header-nav">
