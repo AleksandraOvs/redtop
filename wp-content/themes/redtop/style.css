@@ -895,11 +895,11 @@ a.custom-logo-link img {
 	}
 
 	.custom-logo-link {
-		padding: 10px 10px;
+		padding: 20px 10px;
 	}
 
 	.header-right a.btn {
-		padding: 10px 15px;
+		padding: 20px 15px;
 		display: flex;
 		align-items: center;
 	}
@@ -930,6 +930,9 @@ a.custom-logo-link img {
 
 	.header-right a.btn {
 		width: 100%;
+		align-items: center;
+		text-align: center;
+		justify-content: center;
 	}
 
 	.header-nav ul {
