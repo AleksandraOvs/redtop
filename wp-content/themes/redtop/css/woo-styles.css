@@ -16,7 +16,8 @@
 a.button,
 .single_add_to_cart_button.button,
 .products .product button.product_type_simple.add_to_cart_button.ajax_add_to_cart,
-a.button.add_to_cart_button {
+a.button.add_to_cart_button,
+.wc-block-cart__submit-button {
   display: block;
   font-weight: 300;
   background: var(--accent);
@@ -54,7 +55,8 @@ a.button.add_to_cart_button {
 :where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce #respond input#submit.alt:hover,
 :where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce a.button.alt:hover,
 :where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce button.button.alt:hover,
-:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce input.button.alt:hover {
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(:not(.edit-post-visual-editor)) .woocommerce input.button.alt:hover,
+.wc-block-cart__submit-button:hover {
   background-color: var(--dark-grey);
   color: #fff;
 }
@@ -97,6 +99,7 @@ a.button.add_to_cart_button {
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .woocommerce div.product form.cart::after,
@@ -670,6 +673,99 @@ input[type=number] {
   border-radius: 20px;
 }
 
+.custom-color-swatches {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.color-swatch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+}
+
+.color-swatch:hover {
+  border-color: #333;
+}
+
+.color-swatch input {
+  display: none;
+}
+
+.color-swatch input:checked+.swatch-tooltip {
+  content: "✓";
+  /* position: absolute; */
+  /* top: 2px; */
+  font-weight: 600;
+  /* left: 8px;
+  font-size: 18px; */
+  color: var(--accent);
+
+}
+
+.swatch-tooltip {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  white-space: nowrap;
+  color: #444;
+}
+
+.custom-color-swatches {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.color-swatch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+}
+
+.color-swatch:hover {
+  border-color: #333;
+}
+
+.color-swatch input {
+  display: none;
+}
+
+.color-swatch input:checked:after {
+  border: 1px solid var(--accent);
+  /* content: "✓";
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0 3px black; */
+}
+
+.swatch-tooltip {
+  /* position: absolute; */
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  white-space: nowrap;
+  color: #444;
+}
+
 @media (max-width: 768px) {
   .product-add__links {
     flex-direction: column;
@@ -686,6 +782,52 @@ input[type=number] {
 
   .product-add__links .product-video iframe {
     height: 100%;
+  }
+
+  .characteristics-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .product-extra-image {
+    height: 350px;
+    width: 350px;
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* 
+  .single-product__inner {
+    flex-direction: column-reverse;
+  } */
+
+  .woocommerce-page .page-section {
+    padding-top: 100px;
+  }
+
+  .woocommerce span.onsale {
+    z-index: -1;
+  }
+
+  .single-product__inner {
+    gap: 20px;
+    flex-direction: column-reverse;
+  }
+
+  .woocommerce div.product .product_title {
+    font-size: 30px;
+  }
+
+  .woocommerce div.product div.summary {
+    margin-top: 0;
+  }
+
+  .order-steps {
+    flex-direction: column;
+  }
+
+  .order-step {
+    width: 100%;
   }
 
 }
@@ -714,6 +856,14 @@ input[type=number] {
 
   .where-buy-link h4 {
     text-align: center;
+    width: 100%;
+  }
+
+  .woocommerce span.onsale {
+    top: -37px;
+  }
+
+  .woocommerce-product-gallery {
     width: 100%;
   }
 
