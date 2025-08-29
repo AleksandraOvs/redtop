@@ -595,6 +595,9 @@ input[type=number] {
 .product-links li a {
   text-decoration: none;
   font-weight: 600;
+  color: var(--dark-grey);
+  text-align: center;
+  font-size: 16px;
 }
 
 .product-links {
