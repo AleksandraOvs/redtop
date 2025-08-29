@@ -906,8 +906,8 @@ h4 {
 
 .swiper-slide.hero-slider__slide picture img {
     width: 100%;
-    height: auto;
-    object-position: bottom;
+    height: 100%;
+    object-position: left bottom;
     object-fit: cover;
 }
 
