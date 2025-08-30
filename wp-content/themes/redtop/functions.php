@@ -48,7 +48,7 @@ function redtop_setup()
 		*/
 	add_theme_support('post-thumbnails');
 	add_image_size('medium', 700, 600, true);
-	add_image_size('small', 400, 270, true);
+	//add_image_size('small', 400, 270, true);
 	add_image_size('thumb', 250, 250, true);
 
 	// This theme uses wp_nav_menu() in one location.
