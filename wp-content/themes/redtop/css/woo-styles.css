@@ -811,7 +811,7 @@ input[type=number] {
 
   .single-product__inner {
     gap: 20px;
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   .woocommerce div.product .product_title {
