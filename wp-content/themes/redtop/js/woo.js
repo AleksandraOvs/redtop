@@ -1,78 +1,82 @@
+// document.addEventListener('DOMContentLoaded', function () {
+
+//     function showNotice(message) {
+//         const notice = document.createElement('div');
+//         notice.className = 'custom-add-to-cart-notice';
+//         notice.textContent = message;
+
+//         Object.assign(notice.style, {
+//             position: 'fixed',
+//             top: '20px',
+//             right: '20px',
+//             background: '#2ecc71',
+//             color: '#fff',
+//             padding: '12px 20px',
+//             borderRadius: '8px',
+//             zIndex: 9999,
+//             opacity: 0,
+//             transition: 'opacity 0.3s',
+//             fontSize: '14px',
+//             boxShadow: '0 3px 10px rgba(0,0,0,0.2)'
+//         });
+
+//         document.body.appendChild(notice);
+//         setTimeout(() => notice.style.opacity = 1, 10);
+
+//         setTimeout(() => {
+//             notice.style.opacity = 0;
+//             setTimeout(() => notice.remove(), 400);
+//         }, 2000);
+//     }
+
+//     const nonce = window.wc_add_to_cart_params?.nonce;
+//     if (!nonce) {
+//         console.error('Nonce не найден! Добавление в корзину невозможно.');
+//         return;
+//     }
+
+//     document.querySelectorAll('.custom-add-to-cart-button').forEach(button => {
+//         button.addEventListener('click', function (e) {
+//             e.preventDefault();
+
+//             const productId = parseInt(this.dataset.productId);
+//             const quantity = parseInt(this.dataset.quantity) || 1;
+
+//             fetch('/wp-json/wc/store/cart/items', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     'X-WP-Nonce': nonce
+//                 },
+//                 credentials: 'same-origin',
+//                 body: JSON.stringify({ id: productId, quantity: quantity })
+//             })
+//                 .then(response => response.json().then(data => {
+//                     if (!response.ok) {
+//                         console.error('Ответ сервера:', data);
+//                         throw new Error('Ошибка при добавлении товара');
+//                     }
+//                     return data;
+//                 }))
+//                 .then(data => {
+//                     showNotice(`Товар "${data.name}" добавлен в корзину!`);
+//                     const event = new Event('wc-cart-update', { bubbles: true });
+//                     document.body.dispatchEvent(event);
+//                 })
+//                 .catch(error => {
+//                     console.error(error);
+//                     showNotice('Ошибка при добавлении товара в корзину');
+//                 });
+//         });
+//     });
+
+// });
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    function showNotice(message) {
-        const notice = document.createElement('div');
-        notice.className = 'custom-add-to-cart-notice';
-        notice.textContent = message;
+    console.log('woo.js loaded');
+    console.log('mini_cart_params:', window.mini_cart_params);
 
-        Object.assign(notice.style, {
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            background: '#2ecc71',
-            color: '#fff',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            zIndex: 9999,
-            opacity: 0,
-            transition: 'opacity 0.3s',
-            fontSize: '14px',
-            boxShadow: '0 3px 10px rgba(0,0,0,0.2)'
-        });
-
-        document.body.appendChild(notice);
-        setTimeout(() => notice.style.opacity = 1, 10);
-
-        setTimeout(() => {
-            notice.style.opacity = 0;
-            setTimeout(() => notice.remove(), 400);
-        }, 2000);
-    }
-
-    const nonce = window.wc_add_to_cart_params?.nonce;
-    if (!nonce) {
-        console.error('Nonce не найден! Добавление в корзину невозможно.');
-        return;
-    }
-
-    document.querySelectorAll('.custom-add-to-cart-button').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const productId = parseInt(this.dataset.productId);
-            const quantity = parseInt(this.dataset.quantity) || 1;
-
-            fetch('/wp-json/wc/store/cart/items', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-WP-Nonce': nonce
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({ id: productId, quantity: quantity })
-            })
-                .then(response => response.json().then(data => {
-                    if (!response.ok) {
-                        console.error('Ответ сервера:', data);
-                        throw new Error('Ошибка при добавлении товара');
-                    }
-                    return data;
-                }))
-                .then(data => {
-                    showNotice(`Товар "${data.name}" добавлен в корзину!`);
-                    const event = new Event('wc-cart-update', { bubbles: true });
-                    document.body.dispatchEvent(event);
-                })
-                .catch(error => {
-                    console.error(error);
-                    showNotice('Ошибка при добавлении товара в корзину');
-                });
-        });
-    });
-
-});
-
-document.addEventListener('DOMContentLoaded', function () {
     const noticesWrapper = document.querySelector('.woocommerce-notices-wrapper');
     if (!noticesWrapper) return;
 
@@ -170,18 +174,18 @@ document.addEventListener('click', function (e) {
     const key = removeBtn.dataset.cart_item_key;
     if (!key) return;
 
-    // проверка переменной
-    if (typeof wc_add_to_cart_params === 'undefined') {
-        console.error('wc_add_to_cart_params не определена!');
+    if (typeof mini_cart_params === 'undefined') {
+        console.error('mini_cart_params не определена!');
         return;
     }
 
-    fetch(wc_add_to_cart_params.ajax_url, {
+    fetch(mini_cart_params.ajax_url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
             action: 'rt_remove_from_cart',
-            cart_item_key: key
+            cart_item_key: key,
+            _wpnonce: mini_cart_params.nonce ?? ''
         })
     })
         .then(res => res.json())
@@ -189,7 +193,14 @@ document.addEventListener('click', function (e) {
             if (data.fragments) {
                 Object.entries(data.fragments).forEach(([selector, html]) => {
                     const el = document.querySelector(selector);
-                    if (el) el.outerHTML = html;
+                    if (!el) return;
+
+                    // если это мини-корзина, заменяем только внутреннее содержимое
+                    if (selector === '.mini-cart-dropdown') {
+                        el.innerHTML = html;
+                    } else {
+                        el.outerHTML = html;
+                    }
                 });
             }
         })

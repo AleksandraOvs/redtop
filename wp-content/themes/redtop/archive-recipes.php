@@ -54,7 +54,6 @@ get_header();
                     </ul>
                 <?php endif; ?>
 
-
                 <div id="recipes-list" class="content-inner">
                     <?php if (have_posts()): ?>
                         <?php while (have_posts()): the_post(); ?>

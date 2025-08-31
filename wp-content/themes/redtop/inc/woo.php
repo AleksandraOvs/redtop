@@ -1,26 +1,68 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
-function theme_enqueue_mini_cart_scripts()
-{
+/**
+ * Подключение скрипта мини-корзины и локализация данных для JS
+ */
+add_action('wp_enqueue_scripts', function () {
+    $handle = 'woo-mini-cart';
+    $file   = get_template_directory() . '/js/woo.js';
+    $url    = get_template_directory_uri() . '/js/woo.js';
+    $ver    = file_exists($file) ? filemtime($file) : false;
+
     wp_enqueue_script(
-        'mini-cart',
-        get_stylesheet_directory_uri() . '/js/mini-cart.js',
-        array('jquery', 'wc-cart-fragments'),
-        null,
+        $handle,
+        $url,
+        array(),
+        $ver,
         true
     );
-}
-add_action('wp_enqueue_scripts', 'theme_enqueue_mini_cart_scripts');
 
-function enqueue_wc_ajax_scripts()
+    $data = array(
+        'ajax_url'   => admin_url('admin-ajax.php'),
+        'wc_ajax_url' => defined('WC_AJAX') ? WC_AJAX::get_endpoint('%%endpoint%%') : '',
+        'nonce'      => wp_create_nonce('rt_cart'),
+    );
+
+    // Локализация для JS и inline-переменная перед скриптом
+    wp_localize_script($handle, 'mini_cart_params', $data);
+    wp_add_inline_script($handle, 'var mini_cart_params = ' . wp_json_encode($data) . ';', 'before');
+}, 20);
+
+
+/**
+ * Фрагменты мини-корзины для AJAX обновления
+ */
+add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
+    // Количество товаров
+    ob_start(); ?>
+    <span class="cart-count"><?php echo intval(WC()->cart->get_cart_contents_count()); ?></span>
+<?php
+    $fragments['.cart-count'] = ob_get_clean();
+
+    // Мини-корзина
+    ob_start();
+    woocommerce_mini_cart();
+    $fragments['.mini-cart-dropdown'] = ob_get_clean();
+
+    return $fragments;
+});
+
+/**
+ * AJAX: удаление товара из мини-корзины
+ */
+add_action('wp_ajax_rt_remove_from_cart', 'rt_remove_from_cart');
+add_action('wp_ajax_nopriv_rt_remove_from_cart', 'rt_remove_from_cart');
+function rt_remove_from_cart()
 {
-    if (is_front_page() || is_home()) {
-        // Подключаем стандартные скрипты WooCommerce для AJAX-корзины
-        wp_enqueue_script('wc-add-to-cart');
-        wp_enqueue_script('wc-cart-fragments');
+    check_ajax_referer('rt_cart', '_wpnonce');
+    $cart_item_key = isset($_POST['cart_item_key']) ? wc_clean(wp_unslash($_POST['cart_item_key'])) : '';
+    if ($cart_item_key && WC()->cart && WC()->cart->remove_cart_item($cart_item_key)) {
+        WC_AJAX::get_refreshed_fragments();
+    } else {
+        wp_send_json_error(array('message' => 'Не удалось удалить товар'), 400);
     }
 }
-add_action('wp_enqueue_scripts', 'enqueue_wc_ajax_scripts');
 
 //изменение логики вывода базовой/акционной цены
 add_filter('woocommerce_get_price_html', function ($price_html, $product) {
@@ -38,36 +80,11 @@ add_theme_support('woocommerce', array(
     'ajax_add_to_cart' => true
 ));
 
-// // Не перенаправлять в корзину после добавления
-// add_filter( 'woocommerce_add_to_cart_redirect', '__return_false' );
-// add_filter( 'wc_add_to_cart_params', function($params) {
-//     $params['cart_redirect_after_add'] = false;
-//     return $params;
-// });
-
-// Обновление фрагментов мини-корзины через AJAX
-add_filter('woocommerce_add_to_cart_fragments', 'my_header_add_to_cart_fragment');
-function my_header_add_to_cart_fragment($fragments)
-{
-    ob_start();
-?>
-    <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-<?php
-    $fragments['.cart-count'] = ob_get_clean();
-
-    ob_start();
-    woocommerce_mini_cart();
-    $fragments['.mini-cart-dropdown'] = ob_get_clean();
-
-    return $fragments;
-}
-
 // Полностью отключить редирект после добавления в корзину
 add_filter('woocommerce_add_to_cart_redirect', '__return_empty_string', 999);
 
 // Отключаем стандартный редирект
 add_filter('woocommerce_add_to_cart_redirect', '__return_false');
-
 
 //меняем кнопку для товаров, которые добавлены в корзину
 // === Меняем текст кнопки ===
@@ -136,8 +153,6 @@ function custom_sale_flash($html, $post, $product)
 {
     return '<span class="onsale">' . __('Акция', 'woocommerce') . '</span>';
 }
-
-
 
 // Убираем блок "Похожие товары"
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
@@ -221,7 +236,6 @@ function check_product_slug_conflicts($post_id, $post, $update)
     }
 }
 add_action('save_post', 'check_product_slug_conflicts', 10, 3);
-
 
 // добавление цвета для товаров
 

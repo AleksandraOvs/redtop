@@ -1,4 +1,4 @@
-<div style="display: none;" class="mini-cart">
+<div class="mini-cart">
     <a class="mini-cart-toggle" href="<?php echo wc_get_cart_url(); ?>">
         <svg width="139" height="206" viewBox="0 0 139 206" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="56" width="135" height="148" stroke="black" stroke-width="7" />

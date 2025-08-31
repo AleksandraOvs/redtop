@@ -1039,6 +1039,10 @@ ul.messengers-list {
     justify-content: space-between;
 }
 
+.product-item a .price {
+    text-align: center;
+}
+
 /*BANNERS*/
 
 .section-banners {
