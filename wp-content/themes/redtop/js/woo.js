@@ -215,3 +215,27 @@ document.addEventListener('click', function (e) {
 //         .wrapAll('<div class="swiper product-gallery-slider"><div class="swiper-wrapper"></div></div>');
 //     $('.swiper').append('<div class="swiper-pagination"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div>');
 // });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const swatches = document.querySelectorAll('.custom-color-swatches .color-swatch');
+
+    swatches.forEach(swatch => {
+        const radio = swatch.querySelector('input[type="radio"]');
+        if (!radio) return;
+
+        radio.addEventListener('change', () => {
+            // Убираем класс .checked у всех элементов
+            swatches.forEach(s => s.classList.remove('checked'));
+            // Добавляем класс .checked выбранному
+            if (radio.checked) {
+                swatch.classList.add('checked');
+            }
+        });
+
+        // Если при загрузке элемент уже выбран
+        if (radio.checked) {
+            swatch.classList.add('checked');
+        }
+    });
+});

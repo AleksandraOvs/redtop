@@ -289,6 +289,8 @@ require 'inc/woo.php';
 
 require 'inc/post-types.php';
 
+require 'inc/color-metaboxes.php';
+
 /**
  * Initialization Post Types
  */
@@ -360,7 +362,7 @@ function allow_svg_upload_for_admins($mimes)
 add_filter('upload_mimes', 'allow_svg_upload_for_admins');
 
 
-//обработка ajax-запроса
+
 // Обработка ajax-запроса
 add_action('wp_ajax_filter_recipes', 'handle_filter_recipes_ajax');
 add_action('wp_ajax_nopriv_filter_recipes', 'handle_filter_recipes_ajax');

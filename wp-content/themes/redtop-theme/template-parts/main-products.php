@@ -1,0 +1,82 @@
+<?php
+$category_slug = 'main';
+
+// получаем объект категории
+$category = get_term_by('slug', $category_slug, 'product_cat');
+
+// получаем товары
+$products = wc_get_products([
+    'limit'    => 3,
+    'orderby'  => 'date',
+    'order'    => 'ASC',
+    'category' => [$category_slug],
+]);
+
+if ($products) :
+?>
+    <section class="main-products">
+        <div class="fixed-container">
+
+            <!-- выводим описание категории -->
+            <?php if ($category && term_description($category->term_id, 'product_cat')) : ?>
+                <div class="main-products__description">
+                    <?php echo term_description($category->term_id, 'product_cat'); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Контейнер для уведомлений WooCommerce -->
+            <div class="woocommerce-notices-wrapper"></div>
+
+            <ul class="main-products__list">
+                <?php foreach ($products as $product) :
+                    $product_id = $product->get_id();
+                    $gif_url    = carbon_get_post_meta($product_id, 'product_gif');
+                ?>
+                    <?php
+                    // базовый класс для <li>
+                    $item_classes = 'product-item';
+
+                    // если у товара есть тег "sale" → добавляем класс .sale
+                    if (has_term('sale', 'product_tag', $product_id)) {
+                        $item_classes .= ' tag-sale';
+                    }
+                    ?>
+                    <li class="<?php echo esc_attr($item_classes); ?>">
+                        <?php
+                        if ($product->is_on_sale()) {
+                            echo apply_filters(
+                                'woocommerce_sale_flash',
+                                '<span class="onsale">' . esc_html__('Sale!', 'woocommerce') . '</span>',
+                                $product
+                            );
+                        }
+                        ?>
+                        <a href="<?php echo get_permalink($product_id); ?>">
+                            <?php if ($gif_url) : ?>
+                                <img src="<?php echo esc_url($gif_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>" class="product-gif" />
+                            <?php else : ?>
+                                <?php echo $product->get_image(); ?>
+                            <?php endif; ?>
+                            <h3><?php echo $product->get_name(); ?></h3>
+                            <span class="price"><?php echo $product->get_price_html(); ?></span>
+                        </a>
+
+                        <?php
+                        $classes = 'button add_to_cart_button ajax_add_to_cart';
+                        ?>
+
+                        <a href="<?php echo esc_url($product->add_to_cart_url()); ?>"
+                            class="<?php echo esc_attr($classes); ?>"
+                            data-product_id="<?php echo esc_attr($product_id); ?>"
+                            data-quantity="1"
+                            rel="nofollow">
+                            <?php echo esc_html($product->add_to_cart_text()); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </section>
+<?php
+endif;
+?>

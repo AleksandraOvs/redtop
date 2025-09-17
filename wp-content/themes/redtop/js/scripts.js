@@ -213,8 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
         window.scroll_to_notices = function () { return false; };
     }
 
-    jQuery(function($){
-        $('form.cart, .woocommerce-cart-form').on('click', 'button.plus, button.minus', function() {
+    jQuery(function ($) {
+        $('form.cart, .woocommerce-cart-form').on('click', 'button.plus, button.minus', function () {
             var qty = $(this).closest('.quantity').find('.qty');
             var val = parseFloat(qty.val());
             var max = parseFloat(qty.attr('max'));

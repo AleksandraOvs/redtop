@@ -1,15 +1,28 @@
 <?php
+$category_slug = 'main';
+
+// получаем объект категории
+$category = get_term_by('slug', $category_slug, 'product_cat');
+
+// получаем товары
 $products = wc_get_products([
     'limit'    => 3,
     'orderby'  => 'date',
     'order'    => 'DESC',
-    'category' => ['main'],
+    'category' => [$category_slug],
 ]);
 
 if ($products) :
 ?>
     <section class="main-products">
         <div class="fixed-container">
+
+            <!-- выводим описание категории -->
+            <?php if ($category && term_description($category->term_id, 'product_cat')) : ?>
+                <div class="main-products__description">
+                    <?php echo term_description($category->term_id, 'product_cat'); ?>
+                </div>
+            <?php endif; ?>
 
             <!-- Контейнер для уведомлений WooCommerce -->
             <div class="woocommerce-notices-wrapper"></div>
@@ -20,6 +33,15 @@ if ($products) :
                     $gif_url    = carbon_get_post_meta($product_id, 'product_gif');
                 ?>
                     <li class="product-item">
+                        <?php
+                        if ($product->is_on_sale()) {
+                            echo apply_filters(
+                                'woocommerce_sale_flash',
+                                '<span class="onsale">' . esc_html__('Sale!', 'woocommerce') . '</span>',
+                                $product
+                            );
+                        }
+                        ?>
                         <a href="<?php echo get_permalink($product_id); ?>">
                             <?php if ($gif_url) : ?>
                                 <img src="<?php echo esc_url($gif_url); ?>" alt="<?php echo esc_attr($product->get_name()); ?>" class="product-gif" />
@@ -30,9 +52,7 @@ if ($products) :
                             <span class="price"><?php echo $product->get_price_html(); ?></span>
                         </a>
 
-
                         <?php
-                        $product_id = $product->get_id();
                         $classes = 'button add_to_cart_button ajax_add_to_cart';
 
                         // если товар уже в корзине → добавляем классы

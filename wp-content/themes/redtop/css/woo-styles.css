@@ -694,92 +694,7 @@ input[type=number] {
   margin: 10px 0;
 }
 
-.color-swatch {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #ccc;
-  transition: 0.2s;
-}
 
-.color-swatch:hover {
-  border-color: #333;
-}
-
-.color-swatch input {
-  display: none;
-}
-
-.color-swatch input:checked+.swatch-tooltip {
-  content: "✓";
-  /* position: absolute; */
-  /* top: 2px; */
-  font-weight: 600;
-  /* left: 8px;
-  font-size: 18px; */
-  color: var(--accent);
-
-}
-
-.swatch-tooltip {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  white-space: nowrap;
-  color: #444;
-}
-
-.custom-color-swatches {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-.color-swatch {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #ccc;
-  transition: 0.2s;
-}
-
-.color-swatch:hover {
-  border-color: #333;
-}
-
-.color-swatch input {
-  display: none;
-}
-
-.color-swatch input:checked:after {
-  border: 1px solid var(--accent);
-  /* content: "✓";
-  position: absolute;
-  top: 2px;
-  left: 8px;
-  font-size: 18px;
-  color: white;
-  text-shadow: 0 0 3px black; */
-}
-
-.swatch-tooltip {
-  /* position: absolute; */
-  bottom: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  white-space: nowrap;
-  color: #444;
-}
 
 @media (max-width: 768px) {
   .product-add__links {
@@ -882,4 +797,84 @@ input[type=number] {
     width: 100%;
   }
 
+}
+
+
+/*COLOR SWATCHES*/
+.color-swatch img {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+}
+
+.custom-color-swatches {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.custom-color-swatches p {
+  line-height: 1;
+}
+
+.color-swatch img {
+  width: 40px;
+  height: 40px;
+}
+
+.color-swatch:hover {
+  border-color: #333;
+}
+
+.color-swatch input {
+  display: none;
+}
+
+.color-swatch input:checked:after {
+  border: 1px solid var(--accent);
+  /* content: "✓";
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0 3px black; */
+}
+
+.swatch-tooltip {
+  font-size: 11px;
+  white-space: nowrap;
+  color: #444;
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.color-swatch:hover img {
+  border-color: var(--black);
+}
+
+.color-swatch:hover span {
+  color: var(--black);
+}
+
+.color-swatch.checked img {
+  border-color: var(--black);
+}
+
+.color-swatch.checked span {
+  color: var(--black);
 }

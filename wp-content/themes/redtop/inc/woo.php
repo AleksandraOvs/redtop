@@ -148,8 +148,9 @@ function custom_quantity_minus_button()
 
 //распродажа / акция
 
-add_filter('woocommerce_sale_flash', 'custom_sale_flash', 10, 3);
-function custom_sale_flash($html, $post, $product)
+// кастомный бейдж распродажи
+add_filter('woocommerce_sale_flash', 'custom_sale_flash', 10, 2);
+function custom_sale_flash($html, $post)
 {
     return '<span class="onsale">' . __('Акция', 'woocommerce') . '</span>';
 }
@@ -239,91 +240,91 @@ add_action('save_post', 'check_product_slug_conflicts', 10, 3);
 
 // добавление цвета для товаров
 
-// 1. Метабокс для задания HEX + название
-add_action('add_meta_boxes', 'my_add_colors_metabox');
-function my_add_colors_metabox()
-{
-    add_meta_box(
-        'my_product_colors',
-        'Доступные цвета',
-        'my_product_colors_callback',
-        'product',
-        'side',
-        'default'
-    );
-}
+// // 1. Метабокс для задания HEX + название
+// add_action('add_meta_boxes', 'my_add_colors_metabox');
+// function my_add_colors_metabox()
+// {
+//     add_meta_box(
+//         'my_product_colors',
+//         'Доступные цвета',
+//         'my_product_colors_callback',
+//         'product',
+//         'side',
+//         'default'
+//     );
+// }
 
-function my_product_colors_callback($post)
-{
-    $value = get_post_meta($post->ID, '_available_colors', true);
-    echo '<label for="available_colors">Цвета (HEX|Название, через запятую):</label>';
-    echo '<textarea style="width:100%" id="available_colors" name="available_colors">' . esc_textarea($value) . '</textarea>';
-    echo '<p style="font-size:12px;color:#666">
-        Пример: <code>#ff0000|Красный, #0000ff|Синий, #00ff00|Зелёный</code>
-    </p>';
-}
+// function my_product_colors_callback($post)
+// {
+//     $value = get_post_meta($post->ID, '_available_colors', true);
+//     echo '<label for="available_colors">Цвета (HEX|Название, через запятую):</label>';
+//     echo '<textarea style="width:100%" id="available_colors" name="available_colors">' . esc_textarea($value) . '</textarea>';
+//     echo '<p style="font-size:12px;color:#666">
+//         Пример: <code>#ff0000|Красный, #0000ff|Синий, #00ff00|Зелёный</code>
+//     </p>';
+// }
 
-add_action('save_post_product', 'my_save_product_colors');
-function my_save_product_colors($post_id)
-{
-    if (isset($_POST['available_colors'])) {
-        update_post_meta($post_id, '_available_colors', sanitize_text_field($_POST['available_colors']));
-    }
-}
+// add_action('save_post_product', 'my_save_product_colors');
+// function my_save_product_colors($post_id)
+// {
+//     if (isset($_POST['available_colors'])) {
+//         update_post_meta($post_id, '_available_colors', sanitize_text_field($_POST['available_colors']));
+//     }
+// }
 
-// 2. Свотчи на витрине
-add_action('woocommerce_before_add_to_cart_button', 'my_custom_color_swatches');
-function my_custom_color_swatches()
-{
-    global $product;
-    $colors = get_post_meta($product->get_id(), '_available_colors', true);
-    if (!empty($colors)) {
-        $colors_array = array_map('trim', explode(',', $colors));
+// // 2. Свотчи на витрине
+// add_action('woocommerce_before_add_to_cart_button', 'my_custom_color_swatches');
+// function my_custom_color_swatches()
+// {
+//     global $product;
+//     $colors = get_post_meta($product->get_id(), '_available_colors', true);
+//     if (!empty($colors)) {
+//         $colors_array = array_map('trim', explode(',', $colors));
 
-        echo '<div class="custom-color-swatches"><p>Выберите цвет:</p>';
-        foreach ($colors_array as $index => $color) {
-            // Разделяем HEX и название
-            $parts = array_map('trim', explode('|', $color));
-            $hex   = $parts[0] ?? '#000';
-            $label = $parts[1] ?? $hex;
+//         echo '<div class="custom-color-swatches"><p>Выберите цвет:</p>';
+//         foreach ($colors_array as $index => $color) {
+//             // Разделяем HEX и название
+//             $parts = array_map('trim', explode('|', $color));
+//             $hex   = $parts[0] ?? '#000';
+//             $label = $parts[1] ?? $hex;
 
-            echo '<label class="color-swatch" style="background-color:' . esc_attr($hex) . '">
-                    <input type="radio" name="product_color" value="' . esc_attr($label) . '" ' . ($index === 0 ? 'required' : '') . '>
-                    <span class="swatch-tooltip">' . esc_html($label) . '</span>
-                  </label>';
-        }
-        echo '</div>';
-    }
-}
+//             echo '<label class="color-swatch" style="background-color:' . esc_attr($hex) . '">
+//                     <input type="radio" name="product_color" value="' . esc_attr($label) . '" ' . ($index === 0 ? 'required' : '') . '>
+//                     <span class="swatch-tooltip">' . esc_html($label) . '</span>
+//                   </label>';
+//         }
+//         echo '</div>';
+//     }
+// }
 
-// 3. Сохраняем выбор в корзину
-add_filter('woocommerce_add_cart_item_data', 'my_save_color_cart_item_data_swatches', 10, 2);
-function my_save_color_cart_item_data_swatches($cart_item_data, $product_id)
-{
-    if (isset($_POST['product_color']) && !empty($_POST['product_color'])) {
-        $cart_item_data['product_color'] = sanitize_text_field($_POST['product_color']);
-    }
-    return $cart_item_data;
-}
+// // 3. Сохраняем выбор в корзину
+// add_filter('woocommerce_add_cart_item_data', 'my_save_color_cart_item_data_swatches', 10, 2);
+// function my_save_color_cart_item_data_swatches($cart_item_data, $product_id)
+// {
+//     if (isset($_POST['product_color']) && !empty($_POST['product_color'])) {
+//         $cart_item_data['product_color'] = sanitize_text_field($_POST['product_color']);
+//     }
+//     return $cart_item_data;
+// }
 
-// 4. Показываем в корзине
-add_filter('woocommerce_get_item_data', 'my_display_color_cart_swatches', 10, 2);
-function my_display_color_cart_swatches($item_data, $cart_item)
-{
-    if (isset($cart_item['product_color'])) {
-        $item_data[] = array(
-            'name'  => 'Цвет',
-            'value' => sanitize_text_field($cart_item['product_color'])
-        );
-    }
-    return $item_data;
-}
+// // 4. Показываем в корзине
+// add_filter('woocommerce_get_item_data', 'my_display_color_cart_swatches', 10, 2);
+// function my_display_color_cart_swatches($item_data, $cart_item)
+// {
+//     if (isset($cart_item['product_color'])) {
+//         $item_data[] = array(
+//             'name'  => 'Цвет',
+//             'value' => sanitize_text_field($cart_item['product_color'])
+//         );
+//     }
+//     return $item_data;
+// }
 
-// 5. Сохраняем в заказ
-add_action('woocommerce_checkout_create_order_line_item', 'my_save_color_to_order_items_swatches', 10, 4);
-function my_save_color_to_order_items_swatches($item, $cart_item_key, $values, $order)
-{
-    if (isset($values['product_color'])) {
-        $item->add_meta_data('Цвет', $values['product_color'], true);
-    }
-}
+// // 5. Сохраняем в заказ
+// add_action('woocommerce_checkout_create_order_line_item', 'my_save_color_to_order_items_swatches', 10, 4);
+// function my_save_color_to_order_items_swatches($item, $cart_item_key, $values, $order)
+// {
+//     if (isset($values['product_color'])) {
+//         $item->add_meta_data('Цвет', $values['product_color'], true);
+//     }
+// }
